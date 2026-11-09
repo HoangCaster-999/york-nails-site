@@ -268,7 +268,10 @@ body.menu-open { overflow: hidden; }
   transition: background-color .25s var(--ease);
 }
 .hero__book:hover { background: #3a2e28; }
-.hero__img { display: block; width: 100%; height: auto; }
+.hero__img {               /* landscape 1.47:1 frame; the photo file itself is untouched */
+  display: block; width: 100%; height: auto;
+  aspect-ratio: 1.47 / 1; object-fit: cover; object-position: 50% 43%;
+}
 .hero__text { margin-top: 2rem; text-align: center; }
 .hero__kicker {
   margin: 0 0 1rem;
@@ -630,7 +633,6 @@ body.menu-open { overflow: hidden; }
   .header__bookbar { display: none; }
   .hero { padding-top: 2.5rem; }
   .hero__book { display: none; }   /* booking button sits in the header from tablet up */
-  .hero__img { max-width: 30rem; margin-inline: auto; }   /* portrait photo: keep it a sensible size */
 
 
   .section-bar__link { display: inline-flex; }
@@ -656,10 +658,9 @@ body.menu-open { overflow: hidden; }
   .hero { padding-block: 3rem 5rem; }
   .hero__inner {
     max-width: var(--max);
-    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
     gap: clamp(3rem, 5vw, 5rem); align-items: center;
   }
-  .hero__img { max-height: calc(100vh - 12rem); width: auto; max-width: 100%; margin: 0; justify-self: end; }
   .hero__text { margin-top: 0; }
   .hero__kicker { font-size: .75rem; margin-bottom: 1.25rem; }
   .hero__title { font-size: clamp(2.5rem, 3.4vw, 3.25rem); }
