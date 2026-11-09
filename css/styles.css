@@ -7,21 +7,24 @@
   --charcoal-2: #1a1917;
   --cream: #ebe3d5;         /* alternate section background */
   --cream-2: #e2d8c7;
-  --paper: #f5f0e8;         /* main cream / ivory background */
-  --ivory: #f5f0e8;
+  --paper: #f7f4ee;         /* main ivory background (client-approved) */
+  --ivory: #f7f4ee;
+  --espresso: #493a32;      /* booking button */
+  --heading: #302a26;       /* headings and icons */
+  --muted: #71665e;         /* secondary text */
   --gold-hair: rgba(195, 166, 106, .55);
   --gold: #c3a66a;
   --gold-soft: #e9dcc0;      /* light champagne for button backgrounds */
   --gold-deep: #7a5f2c;      /* gold for small text on cream (AA contrast) */
   --ink: #1e1c19;
-  --ink-soft: #4a443d;      /* secondary text: ≥ 8:1 on paper */
+  --ink-soft: #71665e;      /* secondary text (client-approved) */
   --line: rgba(17, 17, 17, 0.2);
   --gold-line: #9c7f45;     /* button edge: visible on cream (≥ 3:1) */
 
   --serif: "Cormorant Garamond", Garamond, "Times New Roman", serif;
   --sans: "Jost", "Helvetica Neue", Arial, sans-serif;
 
-  --gutter: 1rem;
+  --gutter: 1.25rem;        /* 20px side margins on phones */
   --max: 90rem;
   --ease: cubic-bezier(.2, .7, .2, 1);
 }
@@ -43,8 +46,10 @@ body {
 
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; }
+button { font-family: inherit; }
 p { margin: 0 0 1em; }
-h1, h2, h3 { margin: 0; font-weight: 400; }
+h1, h2, h3 { margin: 0; font-weight: 400; color: var(--heading); }
+.gift :is(h1, h2, h3), .footer :is(h1, h2, h3) { color: inherit; }
 ul[role="list"] { list-style: none; margin: 0; padding: 0; }
 [hidden] { display: none !important; }
 
@@ -112,6 +117,14 @@ ul[role="list"] { list-style: none; margin: 0; padding: 0; }
 .btn--dark:hover { background: #33302c; }
 .btn--outline { border-color: var(--charcoal); color: var(--charcoal); background: transparent; }
 .btn--outline:hover { background: var(--charcoal); color: var(--ivory); }
+/* Booking buttons (anything linking to Fresha) */
+.btn[href*="fresha.com"] {
+  background: var(--espresso); border-color: var(--espresso); color: var(--paper);
+  border-radius: 2px; font-size: .8125rem; letter-spacing: .1em;
+}
+.btn[href*="fresha.com"]:hover { background: #3a2e28; border-color: #3a2e28; }
+.round-btn[href*="fresha.com"] { background: var(--espresso); color: var(--paper); }
+.round-btn[href*="fresha.com"]:hover { background: #3a2e28; }
 
 /* Pill button with round icon (hero) */
 .pill {
@@ -146,37 +159,39 @@ ul[role="list"] { list-style: none; margin: 0; padding: 0; }
 
 /* ---------- Top bar ---------- */
 
-.topbar { background: var(--cream); font-size: .875rem; color: var(--ink); }
-.topbar .icon { color: var(--gold-deep); }
+.topbar { background: var(--paper); font-size: .75rem; line-height: 1; color: var(--muted); }
+.topbar .icon { color: var(--heading); width: .75rem; height: .75rem; }
 .topbar__inner {
   max-width: var(--max); margin-inline: auto;
   padding: 0 var(--gutter);
-  min-height: 2.25rem;
-  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  height: 1.75rem;           /* 28px */
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
 }
 .topbar__right { display: flex; align-items: center; gap: 1.5rem; }
-.topbar__item { display: inline-flex; align-items: center; gap: .4rem; text-decoration: none; padding-block: .4rem; }
-a.topbar__item:hover { color: var(--gold-deep); }
+.topbar__item { display: inline-flex; align-items: center; gap: .35rem; text-decoration: none; letter-spacing: .02em; }
+a.topbar__item:hover { color: var(--heading); }
 .topbar__today, .topbar__right a { display: none; }
+@media (max-width: 47.99em) { .topbar__item > .icon { display: none; } }
 
 /* ---------- Header ---------- */
 
 .header {
   position: sticky; top: 0; z-index: 50;
   background: var(--paper);
-  border-bottom: 1px solid var(--line);
+  color: var(--heading);
 }
 .header__inner {
   max-width: var(--max); margin-inline: auto;
   padding: 0 var(--gutter);
-  height: 3.75rem;
+  min-height: 4.5rem;        /* 72px; grows to fit the full logo file */
   display: grid;
   grid-template-columns: 2.75rem 1fr 2.75rem;
   align-items: center;
 }
-.brand { justify-self: center; display: flex; align-items: center; gap: .6rem; text-decoration: none; padding-block: .25rem; }
-.brand__mono { width: 2.25rem; height: 2.25rem; }
-.brand__word { width: 7.5rem; }
+/* Logo: the client's original JPG shown whole and unedited (1284x722), 190px wide, own ratio. */
+.brand { justify-self: center; display: flex; align-items: center; text-decoration: none; }
+.brand__logo { display: block; width: 11.875rem; }
+.brand__logo img { display: block; width: 100%; height: auto; }
 
 .nav, .header__book { display: none; }
 
@@ -185,16 +200,18 @@ a.topbar__item:hover { color: var(--gold-deep); }
   display: grid; place-items: center;
   justify-self: end;
 }
-.header__call .icon { width: 1.25rem; height: 1.25rem; }
+.header__call { color: var(--heading); margin-right: -.6rem; }
+/* 22px icons; stroke scaled so it renders 1.5px, matching the menu bars. */
+.header__call .icon { width: 1.375rem; height: 1.375rem; stroke-width: 1.64; }
 
 .menu-toggle {
   width: 2.75rem; height: 2.75rem;
   display: grid; place-items: center;
   margin-left: -.6rem;
-  border: 0; background: transparent; color: var(--ink); cursor: pointer;
+  border: 0; background: transparent; color: var(--heading); cursor: pointer;
 }
 .menu-toggle__bars, .menu-toggle__bars::before, .menu-toggle__bars::after {
-  display: block; width: 1.375rem; height: 2px; background: currentColor;
+  display: block; width: 1.375rem; height: 1.5px; background: currentColor;
   transition: transform .3s var(--ease), background-color .2s;
 }
 .menu-toggle__bars { position: relative; }
@@ -205,12 +222,15 @@ a.topbar__item:hover { color: var(--gold-deep); }
 .menu-toggle[aria-expanded="true"] .menu-toggle__bars::before { transform: translateY(6px) rotate(45deg); }
 .menu-toggle[aria-expanded="true"] .menu-toggle__bars::after { transform: translateY(-6px) rotate(-45deg); }
 
-/* Mobile: full-width booking bar */
+/* Mobile: full-width booking bar (services/products pages) */
 .header__bookbar {
   display: flex;
   margin: 0 var(--gutter) .75rem;
-  min-height: 2.75rem;
+  min-height: 3rem;
+  background: var(--espresso); border-color: var(--espresso); color: var(--paper);
+  border-radius: 2px; font-size: .8125rem;
 }
+.header__bookbar:hover { background: #3a2e28; }
 
 .menu {
   position: absolute; left: 0; right: 0; top: 100%;
@@ -233,62 +253,40 @@ a.topbar__item:hover { color: var(--gold-deep); }
 body.menu-open { overflow: hidden; }
 
 /* ---------- Hero ---------- */
+/* Flat colours only: no gradients, shadows or overlays. The photo is shown whole. */
 
-.hero { padding: 0 var(--gutter); }
-.hero__frame {
-  position: relative;
-  isolation: isolate;
-  aspect-ratio: 7 / 10;
-  overflow: hidden;
-  background: var(--paper);
+.hero { padding: .5rem var(--gutter) clamp(3rem, 8vw, 5rem); background: var(--paper); }
+.hero__inner { max-width: 44rem; margin-inline: auto; }
+.hero__book {
+  display: flex; align-items: center; justify-content: center;
+  height: 3rem;              /* 48px */
+  margin-bottom: 1.25rem;    /* 20px to the photo */
+  background: var(--espresso); color: var(--paper);
+  border-radius: 2px;
+  font-family: var(--sans); font-size: .8125rem; font-weight: 500; line-height: 1;
+  letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+  transition: background-color .25s var(--ease);
 }
-.hero__img {
-  display: block;
-  width: 100%; height: 100%; object-fit: cover; object-position: center 48%;
-}
-.hero__eyebrow {
-  display: table;
-  margin: 0 auto 1rem;
-  padding: .3rem .75rem;
-  border: 1px solid var(--gold-line);
-  background: var(--paper);
-  color: var(--ink);
-  font-size: .875rem; font-weight: 700; letter-spacing: .12em;
-  text-shadow: none;
-  box-shadow: 0 2px 8px rgba(0,0,0,.25);
-}
-.hero__eyebrow span { margin-inline: .6rem; }
-.hero__content {
-  max-width: calc(100% - 2rem);
-  margin-bottom: 0;
-  padding: 1rem clamp(1rem, 3vw, 2rem);
-  text-align: center; color: #171512;
-  text-shadow: 0 2px 3px rgba(0,0,0,.62), 0 0 7px rgba(245,240,232,.95);
-  animation: hero-arrive .9s var(--ease) both;
-}
-.hero .pill {
-  background: var(--ivory); color: var(--ink); border-color: var(--ivory);
-  backdrop-filter: none; font-size: .75rem; letter-spacing: .14em;
-  transition: background-color .25s var(--ease), border-color .25s var(--ease);
-}
-.hero .pill:hover { background: var(--gold-soft); border-color: var(--gold-soft); }
-.hero .pill__icon { background: var(--ink); color: var(--ivory); transition: transform .25s var(--ease); }
-.hero .pill:hover .pill__icon { transform: translateX(2px); }
-@keyframes hero-arrive {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
+.hero__book:hover { background: #3a2e28; }
+.hero__img { display: block; width: 100%; height: auto; }
+.hero__text { margin-top: 2rem; text-align: center; }
+.hero__kicker {
+  margin: 0 0 1rem;
+  font-family: var(--sans); font-size: .6875rem; font-weight: 500; line-height: 1.4;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--muted);
 }
 .hero__title {
-  font-family: var(--serif);
-  font-weight: 600;
-  font-size: clamp(2.25rem, 8vw, 4.25rem);
-  line-height: 1.02;
-  letter-spacing: -.01em;
-  margin-bottom: 1.25rem;
-  -webkit-text-stroke: .45px rgba(245,240,232,.9);
-  paint-order: stroke fill;
-  text-shadow: 0 2px 3px rgba(0,0,0,.7), 0 0 8px rgba(245,240,232,.95);
+  margin: 0;
+  font-family: var(--serif); font-weight: 400; font-style: normal;
+  font-size: 2rem; line-height: 1.2; letter-spacing: 0;
+  color: var(--heading);
 }
+.hero__explore {
+  display: inline-block; margin-top: 1.25rem; padding-block: .25rem;   /* 24px to the text */
+  font-family: var(--sans); font-size: .875rem; line-height: 1.4; letter-spacing: .02em;
+  color: var(--heading); text-decoration: none;
+}
+.hero__explore:hover { text-decoration: underline; text-underline-offset: .3em; text-decoration-thickness: 1px; }
 
 /* ---------- Sections ---------- */
 
@@ -310,7 +308,7 @@ body.menu-open { overflow: hidden; }
 .preview-banner {
   position: fixed; left: 50%; bottom: 1rem; z-index: 90; transform: translateX(-50%);
   padding: .6rem 1rem; background: var(--charcoal); color: var(--ivory);
-  font-size: .875rem; box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  font-size: .875rem;
 }
 
 /* ---------- As seen in ---------- */
@@ -322,8 +320,6 @@ body.menu-open { overflow: hidden; }
 /* Continuous scrolling strip: two identical lists move left by one list width. */
 .marquee {
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 .marquee__track { display: flex; width: max-content; animation: marquee 32s linear infinite; }
 .marquee:hover .marquee__track { animation-play-state: paused; }
@@ -351,13 +347,8 @@ body.menu-open { overflow: hidden; }
   position: relative; width: min(80%, 25rem); aspect-ratio: 1.586; margin: 2.5rem auto 1.5rem;
   container-type: inline-size;
 }
-.gift__stack::before {   /* soft champagne glow behind the cards */
-  content: ""; position: absolute; inset: -25%; z-index: -1;
-  background: radial-gradient(closest-side, rgba(195, 166, 106, .32), transparent);
-}
 .gift-card {
   position: absolute; inset: 0; overflow: hidden; border-radius: 4.5cqi;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .3), 0 30px 60px -20px rgba(0, 0, 0, .85);
   transition: transform .6s var(--ease);
 }
 .gift-card::after {      /* fine double frame */
@@ -366,17 +357,14 @@ body.menu-open { overflow: hidden; }
 }
 .gift-card--back {
   color: var(--gold);
-  background: radial-gradient(120% 90% at 20% 0%, #34302a, #0b0a09 70%);
+  background: #2a2522; outline: 1px solid rgba(195, 166, 106, .5);
   transform: translate(9%, -13%) rotate(9deg);
 }
 .gift-card--back .gift-card__mono { position: absolute; right: 8cqi; bottom: 8cqi; width: 13cqi; height: auto; opacity: .9; }
 .gift-card--front {
   display: grid; grid-template-rows: auto 1fr auto; padding: 7cqi 8cqi;
   color: #2c2214;
-  background:
-    repeating-linear-gradient(135deg, rgba(255, 255, 255, .07) 0 1px, transparent 1px 7px),
-    radial-gradient(140% 100% at 85% 110%, rgba(122, 95, 44, .45), transparent 60%),
-    linear-gradient(120deg, #b38f52 0%, #ead9ab 24%, #c7aa6c 42%, #f6ebcb 56%, #bd9b5c 74%, #e2cb96 100%);
+  background: var(--gold);
   transform: rotate(-5deg);
 }
 .gift__media:hover .gift-card--front { transform: rotate(-3deg) translateY(-2%); }
@@ -388,13 +376,7 @@ body.menu-open { overflow: hidden; }
 .gift-card--front .gift-card__mono { width: 17cqi; height: auto; filter: brightness(.3) saturate(1.3); }
 .gift-card__brand { font-family: var(--serif); font-size: 7cqi; font-weight: 500; letter-spacing: .3em; padding-left: .3em; line-height: 1; }
 .gift-card__foot { display: flex; justify-content: space-between; font-size: 2.6cqi; opacity: .75; }
-.gift-card__sheen {      /* light sweeping across the foil */
-  position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .55) 50%, transparent 65%) no-repeat;
-  background-size: 250% 100%; background-position: 150% 0;
-  animation: sheen 7s var(--ease) infinite 1s;
-}
-@keyframes sheen { 0%, 70% { background-position: 150% 0; } 100% { background-position: -150% 0; } }
+.gift-card__sheen { display: none; }
 .gift .eyebrow { color: var(--gold); }
 .gift__lede { color: rgba(245, 240, 232, .85); margin: 1.25rem 0 2rem; max-width: 32rem; font-size: 1.0625rem; }
 .gift__actions { display: flex; flex-wrap: wrap; gap: .75rem; }
@@ -531,7 +513,6 @@ body.menu-open { overflow: hidden; }
 
 .feature { background: var(--paper); }
 .feature__grid { display: grid; gap: 2.5rem; align-items: center; }
-.feature__media { box-shadow: 0 30px 60px -30px rgba(17, 17, 17, .35); }
 .feature__media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
 .feature__lede { color: var(--ink-soft); margin: 1.25rem 0 2rem; max-width: 32rem; font-size: 1.0625rem; }
 
@@ -634,13 +615,22 @@ body.menu-open { overflow: hidden; }
   :root { --gutter: 1.5rem; }
   .topbar__today, .topbar__right a { display: inline-flex; }
 
-  .header__inner { grid-template-columns: auto 1fr auto; height: 4.5rem; gap: 1.5rem; }
+  .topbar__inner { justify-content: space-between; }
+  .header { border-bottom: 1px solid var(--line); }
+  .header__inner { grid-template-columns: auto 1fr auto; gap: 1.5rem; }
   .brand { justify-self: start; }
   .menu-toggle { order: 3; margin: 0 -.6rem 0 0; }
   .header__call { display: none; }
-  .header__book { display: inline-flex; justify-self: end; }
+  .header__book {
+    display: inline-flex; justify-self: end;
+    background: var(--espresso); border-color: var(--espresso); color: var(--paper);
+    border-radius: 2px; font-size: .8125rem;
+  }
+  .header__book:hover { background: #3a2e28; }
   .header__bookbar { display: none; }
-  .brand__word { width: 9.5rem; }
+  .hero { padding-top: 2.5rem; }
+  .hero__book { display: none; }   /* booking button sits in the header from tablet up */
+  .hero__img { max-width: 30rem; margin-inline: auto; }   /* portrait photo: keep it a sensible size */
 
 
   .section-bar__link { display: inline-flex; }
@@ -662,7 +652,18 @@ body.menu-open { overflow: hidden; }
 
 @media (min-width: 64em) {
   :root { --gutter: 2rem; }
-  .hero__frame { aspect-ratio: 16 / 9; }
+  /* Photo left (whole, at its own ratio), text right. */
+  .hero { padding-block: 3rem 5rem; }
+  .hero__inner {
+    max-width: var(--max);
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(3rem, 5vw, 5rem); align-items: center;
+  }
+  .hero__img { max-height: calc(100vh - 12rem); width: auto; max-width: 100%; margin: 0; justify-self: end; }
+  .hero__text { margin-top: 0; }
+  .hero__kicker { font-size: .75rem; margin-bottom: 1.25rem; }
+  .hero__title { font-size: clamp(2.5rem, 3.4vw, 3.25rem); }
+  .hero__explore { margin-top: 2rem; font-size: .9375rem; }
   .menu-toggle, .menu { display: none !important; }
 
   .nav { display: block; justify-self: center; }
@@ -698,10 +699,6 @@ body.menu-open { overflow: hidden; }
   .menu-items li { grid-template-columns: 1fr 6rem 7rem; }
   .menu-items__time { grid-column: 2; grid-row: 1; align-self: center; }
   .menu-items__price { grid-column: 3; grid-row: 1; }
-}
-
-@media (max-width: 47.99em) {
-  .hero__frame { aspect-ratio: 7 / 10; }
 }
 
 /* ---------- Reduced motion ---------- */
