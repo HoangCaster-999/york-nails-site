@@ -9,7 +9,7 @@
   --cream-2: #e2d8c7;
   --paper: #f7f4ee;         /* main ivory background (client-approved) */
   --ivory: #f7f4ee;
-  --espresso: #493a32;      /* booking button */
+  --espresso: #4e392e;      /* booking button (matched to the approved mock-up) */
   --heading: #302a26;       /* headings and icons */
   --muted: #71665e;         /* secondary text */
   --gold-hair: rgba(195, 166, 106, .55);
@@ -23,6 +23,8 @@
 
   --serif: "Cormorant Garamond", Garamond, "Times New Roman", serif;
   --sans: "Jost", "Helvetica Neue", Arial, sans-serif;
+  --sans-ui: "Figtree", "Helvetica Neue", Arial, sans-serif;   /* header + hero, per approved mock-up */
+  --serif-hero: "EB Garamond", Garamond, "Times New Roman", serif;
 
   --gutter: 1.25rem;        /* 20px side margins on phones */
   --max: 90rem;
@@ -159,19 +161,25 @@ ul[role="list"] { list-style: none; margin: 0; padding: 0; }
 
 /* ---------- Top bar ---------- */
 
-.topbar { background: var(--paper); font-size: .75rem; line-height: 1; color: var(--muted); }
+.topbar { background: var(--paper); font-family: var(--sans-ui); font-size: .75rem; line-height: 1; color: var(--muted); }
 .topbar .icon { color: var(--heading); width: .75rem; height: .75rem; }
 .topbar__inner {
   max-width: var(--max); margin-inline: auto;
   padding: 0 var(--gutter);
-  height: 1.75rem;           /* 28px */
+  height: var(--topbar-h, 1.75rem);
   display: flex; align-items: center; justify-content: center; gap: 1rem;
 }
 .topbar__right { display: flex; align-items: center; gap: 1.5rem; }
 .topbar__item { display: inline-flex; align-items: center; gap: .35rem; text-decoration: none; letter-spacing: .02em; }
 a.topbar__item:hover { color: var(--heading); }
 .topbar__today, .topbar__right a { display: none; }
-@media (max-width: 47.99em) { .topbar__item > .icon { display: none; } }
+/* Phone: pin + address centred, as in the approved mock-up. */
+@media (max-width: 47.99em) {
+  .topbar { --topbar-h: 1.75rem; font-size: var(--topbar-fs, .6875rem); color: var(--heading); }
+  .topbar .icon { width: .7rem; height: .7rem; stroke-width: 1.5; }
+  .topbar__item { gap: .3rem; letter-spacing: .03em; }
+  .topbar__right { display: none; }
+}
 
 /* ---------- Header ---------- */
 
@@ -183,14 +191,14 @@ a.topbar__item:hover { color: var(--heading); }
 .header__inner {
   max-width: var(--max); margin-inline: auto;
   padding: 0 var(--gutter);
-  min-height: 4.5rem;        /* 72px; grows to fit the full logo file */
+  min-height: var(--header-h, 4.5rem);
   display: grid;
   grid-template-columns: 2.75rem 1fr 2.75rem;
   align-items: center;
 }
-/* Logo: the client's original JPG shown whole and unedited (1284x722), 190px wide, own ratio. */
+/* Logo: horizontal lock-up (YN monogram left, YORK NAILS right) on the page background. */
 .brand { justify-self: center; display: flex; align-items: center; text-decoration: none; }
-.brand__logo { display: block; width: 11.875rem; }
+.brand__logo { display: block; width: var(--logo-w, 11rem); }
 .brand__logo img { display: block; width: 100%; height: auto; }
 
 .nav, .header__book { display: none; }
@@ -202,7 +210,7 @@ a.topbar__item:hover { color: var(--heading); }
 }
 .header__call { color: var(--heading); margin-right: -.6rem; }
 /* 22px icons; stroke scaled so it renders 1.5px, matching the menu bars. */
-.header__call .icon { width: 1.375rem; height: 1.375rem; stroke-width: 1.64; }
+.header__call .icon { width: var(--icon, 1.375rem); height: var(--icon, 1.375rem); stroke-width: 1.25; }
 
 .menu-toggle {
   width: 2.75rem; height: 2.75rem;
@@ -211,16 +219,16 @@ a.topbar__item:hover { color: var(--heading); }
   border: 0; background: transparent; color: var(--heading); cursor: pointer;
 }
 .menu-toggle__bars, .menu-toggle__bars::before, .menu-toggle__bars::after {
-  display: block; width: 1.375rem; height: 1.5px; background: currentColor;
+  display: block; width: var(--burger-w, 1.375rem); height: 1px; background: currentColor;
   transition: transform .3s var(--ease), background-color .2s;
 }
 .menu-toggle__bars { position: relative; }
 .menu-toggle__bars::before, .menu-toggle__bars::after { content: ""; position: absolute; left: 0; }
-.menu-toggle__bars::before { top: -6px; }
-.menu-toggle__bars::after { top: 6px; }
+.menu-toggle__bars::before { top: -5px; }
+.menu-toggle__bars::after { top: 5px; }
 .menu-toggle[aria-expanded="true"] .menu-toggle__bars { background: transparent; }
-.menu-toggle[aria-expanded="true"] .menu-toggle__bars::before { transform: translateY(6px) rotate(45deg); }
-.menu-toggle[aria-expanded="true"] .menu-toggle__bars::after { transform: translateY(-6px) rotate(-45deg); }
+.menu-toggle[aria-expanded="true"] .menu-toggle__bars::before { transform: translateY(5px) rotate(45deg); }
+.menu-toggle[aria-expanded="true"] .menu-toggle__bars::after { transform: translateY(-5px) rotate(-45deg); }
 
 /* Mobile: full-width booking bar (services/products pages) */
 .header__bookbar {
@@ -255,41 +263,52 @@ body.menu-open { overflow: hidden; }
 /* ---------- Hero ---------- */
 /* Flat colours only: no gradients, shadows or overlays. The photo is shown whole. */
 
-.hero { padding: .5rem var(--gutter) clamp(3rem, 8vw, 5rem); background: var(--paper); }
+.hero { padding: var(--hero-pt, .25rem) var(--gutter) clamp(3rem, 8vw, 5rem); background: var(--paper); }
 .hero__inner { max-width: 44rem; margin-inline: auto; }
 .hero__book {
   display: flex; align-items: center; justify-content: center;
-  height: 3rem;              /* 48px */
-  margin-bottom: 1.25rem;    /* 20px to the photo */
+  height: var(--book-h, 2.25rem);
+  margin-bottom: var(--book-gap, 1.125rem);
   background: var(--espresso); color: var(--paper);
-  border-radius: 2px;
-  font-family: var(--sans); font-size: .8125rem; font-weight: 500; line-height: 1;
-  letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+  border-radius: 1px;
+  font-family: var(--sans-ui); font-size: var(--book-fs, .6875rem); font-weight: 500; line-height: 1;
+  letter-spacing: var(--book-ls, .14em); text-transform: uppercase; text-decoration: none;
+  padding-left: var(--book-ls, .14em);   /* optically centre tracked caps */
   transition: background-color .25s var(--ease);
 }
 .hero__book:hover { background: #3a2e28; }
-.hero__img {               /* landscape 1.47:1 frame; the photo file itself is untouched */
+.hero__img {               /* client's chosen photo, shown whole at its own ratio */
   display: block; width: 100%; height: auto;
-  aspect-ratio: 1.47 / 1; object-fit: cover; object-position: 50% 43%;
 }
-.hero__text { margin-top: 2rem; text-align: center; }
+.hero__text { margin-top: var(--kicker-gap, 1.5rem); text-align: center; }
 .hero__kicker {
-  margin: 0 0 1rem;
-  font-family: var(--sans); font-size: .6875rem; font-weight: 500; line-height: 1.4;
-  letter-spacing: .2em; text-transform: uppercase; color: var(--muted);
+  margin: 0 0 var(--title-gap, 1rem);
+  font-family: var(--sans-ui); font-size: var(--kicker-fs, .6875rem); font-weight: 500; line-height: 1.2;
+  letter-spacing: var(--kicker-ls, .12em); text-transform: uppercase; color: var(--heading);
 }
 .hero__title {
   margin: 0;
-  font-family: var(--serif); font-weight: 400; font-style: normal;
-  font-size: 2rem; line-height: 1.2; letter-spacing: 0;
-  color: var(--heading);
+  font-family: var(--serif-hero); font-weight: var(--title-w, 400); font-style: normal;
+  font-size: var(--title-fs, 1.875rem); line-height: var(--title-lh, 1); letter-spacing: -.005em;
+  color: #3a2d27;          /* warm espresso-brown, as in the mock-up */
 }
 .hero__explore {
-  display: inline-block; margin-top: 1.25rem; padding-block: .25rem;   /* 24px to the text */
-  font-family: var(--sans); font-size: .875rem; line-height: 1.4; letter-spacing: .02em;
+  display: inline-block; margin-top: var(--explore-gap, 1rem); padding-bottom: 3px;
+  border-bottom: 1px solid currentColor;
+  font-family: var(--sans-ui); font-size: var(--explore-fs, .8125rem); line-height: 1; letter-spacing: .02em;
   color: var(--heading); text-decoration: none;
 }
-.hero__explore:hover { text-decoration: underline; text-underline-offset: .3em; text-decoration-thickness: 1px; }
+.hero__explore:hover { color: var(--espresso); }
+.hero__arrow {
+  display: inline-block; width: .5625rem; height: .5rem; margin-left: .45rem; vertical-align: .05em;
+  fill: none; stroke: currentColor; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round;
+}
+.hero__tags {
+  margin: var(--tags-gap, 1.5rem) 0 0;
+  font-family: var(--sans-ui); font-size: var(--tags-fs, .625rem); font-weight: 500; line-height: 1.2;
+  letter-spacing: var(--tags-ls, .16em); text-transform: uppercase; color: var(--heading);
+  word-spacing: .7em;
+}
 
 /* ---------- Sections ---------- */
 
@@ -614,8 +633,21 @@ body.menu-open { overflow: hidden; }
 
 /* ---------- Tablet ---------- */
 
+/* Phone header + hero, measured against the approved mock-up at 390px. */
+@media (max-width: 47.99em) {
+  .topbar, .header, .hero { --gutter: 1rem; }
+  :root {
+    --topbar-fs: .59rem; --logo-w: 11.18rem; --burger-w: 1.25rem; --icon: 1.45rem; --header-h: 3.95rem; --hero-pt: .5rem; --title-gap: 1.15rem;
+    --book-h: 2.125rem; --book-fs: .65625rem; --book-ls: .16em;
+    --kicker-gap: 1.35rem; --kicker-fs: .53rem; --kicker-ls: .14em;
+    --title-fs: 1.75rem; --title-w: 400;
+    --explore-gap: 1.175rem; --explore-fs: .71875rem; --tags-gap: 1.25rem; --tags-fs: .4375rem; --tags-ls: .2em;
+  }
+}
+
 @media (min-width: 48em) {
   :root { --gutter: 1.5rem; }
+  .header { --logo-w: 15rem; --header-h: 5rem; }
   .topbar__today, .topbar__right a { display: inline-flex; }
 
   .topbar__inner { justify-content: space-between; }
